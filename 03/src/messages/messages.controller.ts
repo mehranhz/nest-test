@@ -1,4 +1,5 @@
-import { Controller, Get, Post, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Patch, Param, Body, Query, Req } from '@nestjs/common';
+import { Request } from 'express';
 
 @Controller('messages')
 export class MessagesController {
@@ -9,8 +10,8 @@ export class MessagesController {
     }
 
     @Post()
-    create(){
-        return 'This action adds a new message';
+    create(@Body() body: any){
+        return `We've added a message with text: ${body.content} to messages list`;
     }
 
     @Delete()
@@ -24,8 +25,11 @@ export class MessagesController {
     }
 
     @Get(':id')
-    findOne(){
-        return 'This action returns a message';
+    findOne(@Param('id') id:string, @Req() request: Request){
+        return {
+            message: 'all query params',
+            query: request.query
+        };
     }
 
     }
