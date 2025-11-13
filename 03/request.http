@@ -7,9 +7,9 @@ POST http://localhost:5000/messages
 content-type: application/json
 
 {
-    "content": "Hi There"
+    "content": "luttuce"
 }
 
 ### Fetch a message
 
-GET http://localhost:5000/messages/33?q=h2o&test=tt
+GET http://localhost:5000/messages/12?q=h2o&test=tt
