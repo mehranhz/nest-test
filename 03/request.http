@@ -11,5 +11,4 @@ content-type: application/json
 }
 
 ### Fetch a message
-
 GET http://localhost:5000/messages/12?q=h2o&test=tt
