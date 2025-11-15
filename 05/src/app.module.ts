@@ -5,9 +5,15 @@ import { ReportsModule } from './reports/reports.module';
 import { UsersService } from './users/users.service';
 import { UsersController } from './users/users.controller';
 import { UsersModule } from './users/users.module';
+import {TypeOrmModule } from '@nestjs/typeorm'
 
 @Module({
-  imports: [ReportsModule, UsersModule],
+  imports: [ReportsModule, UsersModule,TypeOrmModule.forRoot({
+    type: 'sqljs',
+    location: 'database',
+    entities: [],
+    synchronize: true
+  })],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
 })
