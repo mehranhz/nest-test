@@ -7,22 +7,28 @@ import {
   Query,
   Delete,
   Patch,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDTO } from './dtos/create-user.dto'
 import { UpdateUserDto } from './dtos/update-user.dto'
-import {UserDto} from './dtos/user.dto'
+import { UserDto } from './dtos/user.dto'
 import { Serialize } from 'src/interceptors/serialize.interceptor'
+import { AuthService } from './auth.service'
 
 @Controller('auth')
 @Serialize(UserDto)
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private authService: AuthService
+  ) {}
 
   @Post('signup')
   createUser(@Body() body: CreateUserDTO) {
-    return this.usersService.create(body.email, body.password)
+    const user = this.authService.signup(body.email, body.password)
+    console.log(user)
+    return user
   }
 
   @Get(':id')
