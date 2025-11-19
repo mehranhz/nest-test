@@ -8,7 +8,8 @@ import {
   Delete,
   Patch,
   NotFoundException,
-  Session
+  Session,
+  UnauthorizedException
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDTO } from './dtos/create-user.dto'
@@ -27,6 +28,9 @@ export class UsersController {
 
   @Get('me')
   getMe(@Session() session: any) {
+    if (!session.userId) {
+      throw new UnauthorizedException('User not signed in')
+    }
     return this.usersService.findOne(session.userId)
   }
 
@@ -44,6 +48,15 @@ export class UsersController {
 
     session.userId = user.id
     return user
+  }
+
+  @Post('signout')
+  signOut(@Session() session: any) {
+    if (session.userId) {
+      session.userId = null
+    }
+
+    return { message: 'Signed out successfully' }
   }
 
   @Get(':id')
